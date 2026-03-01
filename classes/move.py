@@ -16,7 +16,7 @@ class move:
         return (f"{self.name}\n{self.element.element_name}\n{self.power}\n{self.category}\n{self.PP}\n{self.accuracy}\n{self.priority}\n{self.effect.nome}")
 
     
-with open(r"D:\poo_project\classes\moves.txt", "r") as info:
+with open(r"Moves.txt", "r") as info:
     for linhas in info:
         command = (linhas.strip())
         exec(command)

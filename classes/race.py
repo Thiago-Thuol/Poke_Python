@@ -6,7 +6,7 @@ class race:
         self.base = base_stats
 
 
-with open(r"D:\poo_project\classes\Races.txt", "r") as info:
+with open(r"Races.txt", "r") as info:
     for linhas in info:
         command = (linhas.strip())
         exec(command)
