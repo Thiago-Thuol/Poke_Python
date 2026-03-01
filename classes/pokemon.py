@@ -42,7 +42,7 @@ class pokemon:
 
 ## criar um pokemon
 
-    def build_pk (nome,lvl:int,race):
+    def build_pk (nome,lvl,race):
         try:    
             if nome in pokemons.keys():
                 if nome not in pokemons and pokemons[nome] == race:

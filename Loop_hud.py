@@ -34,7 +34,7 @@ def hud():
             tr.trainer.add_trainer(answer)
         elif key == "2":
             Nome_pk = form.format_names(input("Digite o nome do pokemon: "))
-            LVL_pk = int(input("Digite o level do pokemon: "))
+            LVL_pk = (input("Digite o level do pokemon: "))
             race_pk = form.format_names(input("Digite a raca do pokemon: "))
             pk.pokemon.build_pk(Nome_pk,LVL_pk,race_pk)
     

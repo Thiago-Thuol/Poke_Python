@@ -5,12 +5,14 @@ class race:
         self._element = types
         self.base = base_stats
 
-
-with open(r"Races.txt", "r") as info:
-    for linhas in info:
-        command = (linhas.strip())
-        exec(command)
-
+try:
+    with open("Races.txt", "r") as info:
+        for linhas in info:
+            command = (linhas.strip())
+            exec(command)
+except:
+    while True:
+        a = input("errorr")
 
 
 
