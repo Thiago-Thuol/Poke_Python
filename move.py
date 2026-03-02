@@ -1,5 +1,5 @@
-from classes import element as el
-from classes import effect as ef
+import element as el
+import effect as ef
 class move:
     def __init__ (self,name,element:list=[],power:int=0,accuracy:int=0,category:str="Physical",PP:int=0,priority:int=0,effect=ef.Nones,multi_hit = 0,recoil = 0):
         self.name = name

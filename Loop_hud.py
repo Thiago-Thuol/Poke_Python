@@ -1,8 +1,8 @@
-from classes import pokemon as pk
-from classes import trainer as tr
-from classes import race as rc
-from classes import move as mv
-from classes import format_input as form
+import pokemon as pk
+import trainer as tr
+import race as rc
+import move as mv
+import format_input as form
 
 
 ## funcao q retorna uma chave (5==erro)
@@ -31,10 +31,20 @@ def hud():
             key = inicio()
         if key == "1":
             answer = form.format_names(input("Nome do treinador: "))
-            tr.trainer.add_trainer(answer)
+            tr.Trainer.add_trainer(answer)
         elif key == "2":
             Nome_pk = form.format_names(input("Digite o nome do pokemon: "))
-            LVL_pk = (input("Digite o level do pokemon: "))
+            LVL_pk = int((input("Digite o level do pokemon: ")))
             race_pk = form.format_names(input("Digite a raca do pokemon: "))
             pk.pokemon.build_pk(Nome_pk,LVL_pk,race_pk)
-    
+        elif key == "3":
+            print(f"1) ADD_pokemon\n2) DEL_pokemon\n")
+            answer = form.format(input("resposta: "))
+            if answer == "1" or answer == "add":
+                Nome_treinador = form.format_names(input("Nome do treinador: "))
+                Nome_pk = form.format_names(input("Digite o nome do pokemon: "))
+                tr.Trainer.add_party(Nome_treinador,Nome_pk)
+            else:
+                Nome_treinador = form.format_names(input("Nome do treinador: "))
+                Nome_pk = form.format_names(input("Digite o nome do pokemon: "))
+                tr.Trainer.del_party(Nome_treinador,Nome_pk)

@@ -1,6 +1,6 @@
-from classes import race as rc
-from classes import element as el
-from classes import move as mv
+import race as rc
+import element as el
+import move as mv
 import random as rm
 
 ##lista com todos pokemons
@@ -26,7 +26,6 @@ class pokemon:
         self.SP_DEF = 0
         self.SPPD = 0
         self.base_stat_calc()
-        pokemons[name] = race._race
         if show_stats == True:
             print (self.id())
 
@@ -42,21 +41,13 @@ class pokemon:
 
 ## criar um pokemon
 
-    def build_pk (nome,lvl,race):
-        try:    
-            if nome in pokemons.keys():
-                if nome not in pokemons and pokemons[nome] == race:
-                    command = (f"{nome} = pokemon('{nome}',{lvl},rc.{race})")
-                    exec(command) 
-                    print (pokemons)
-                else: 
-                    print("\nPokemon ja existe\n")
-            else:
-                command = (f"{nome} = pokemon('{nome}',{lvl},rc.{race})")
-                exec(command) 
-                print (pokemons)
-        except:
-            print (f"\nINPUT INVALIDO\n")
+    def build_pk (nome,lvl,race,stats=0):
+        if nome not in pokemons.keys():
+            temp_race = rc.race.race_id(race)
+            temp_poke = pokemon(name=nome,lvl=lvl,race=temp_race,show_stats=stats)
+            pokemons[nome] = temp_poke
+        else:
+            print ("Pokemon ja existe")
 
 ## calculo dos stats  
 
@@ -69,6 +60,13 @@ class pokemon:
         self.SP_ATTK = calc(self.base[3],self.iv[3])
         self.SP_DEF = calc(self.base[4],self.iv[4])
         self.SPPD = calc(self.base[5],self.iv[5])
+
+## GET POKEMON
+    def get_pokemon(key):
+        saida = pokemons[key]
+        return(saida)
+
+    
 
 
 ## formatacao dos textos do ataque 
@@ -96,16 +94,16 @@ SPEED: {self.SPPD}
     
 #### POKEMONS BASE PARA TESTES#####
 
-Thuol = pokemon(name='Thuol',lvl=10,race=rc.Bulbasaur,show_stats=False)
+pokemon.build_pk(nome='Thuol',lvl=10,race="Bulbasaur",stats=False)
 
-Alfaro = pokemon(name='Alfaro',lvl=15,race=rc.Charmander,show_stats=False)
+pokemon.build_pk(nome='Alfaro',lvl=15,race="Charmander",stats=False)
 
-Trotsky = pokemon(name='Trotsky',lvl=25,race=rc.Abra,show_stats=False)
+pokemon.build_pk(nome='Trotsky',lvl=25,race="Abra",stats=False)
 
-Puta = pokemon(name='Puta',lvl=1,race=rc.Vaporeon,show_stats=False)
+pokemon.build_pk(nome='Puta',lvl=1,race="Vaporeon",stats=False)
 
-Mendigo = pokemon(name='Mendigo',lvl=50,race=rc.Gengar,show_stats=False)
+pokemon.build_pk(nome='Mendigo',lvl=50,race="Gengar",stats=False)
 
-Lula = pokemon(name='Lula',lvl=100,race=rc.Tentacool,show_stats=False)
+pokemon.build_pk(nome='Lula',lvl=100,race="Tentacool",stats=False)
 
-Gui = pokemon(name='Gui',lvl=100,race=rc.Grimer,show_stats=False)
+pokemon.build_pk(nome='Gui',lvl=100,race="Grimer",stats=False)

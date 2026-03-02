@@ -1,9 +1,18 @@
-from classes import element as el
+import element as el
+
+races={}
+
 class race:
     def __init__(self,race,types:list,base_stats:list):
         self._race = race
         self._element = types
         self.base = base_stats
+        races[race] = self
+        
+    def race_id(key):
+        result = races[key]
+        return result
+
 
 try:
     with open("Races.txt", "r") as info:
@@ -13,6 +22,7 @@ try:
 except:
     while True:
         a = input("errorr")
+
 
 
 
