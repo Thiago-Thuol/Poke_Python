@@ -1,32 +1,32 @@
-class effect:
+class Effect:
     def __init__ (self,nome):
         self.nome = nome
         self.condicion = 0
-        self.effect = 0
+        self.Effect = 0
 
 # Status Conditions
-Paralyze = effect("Paralyze")
-Sleep = effect("Sleep")
-Burn = effect("Burn")
-Freeze = effect("Freeze")
-Poison = effect("Poison")
-Confusion = effect("Confusion")
-Disable = effect("Disable")
-HighCrit = effect("HighCrit")
-Flinch = effect("Flinch")
+Paralyze = Effect("Paralyze")
+Sleep = Effect("Sleep")
+Burn = Effect("Burn")
+Freeze = Effect("Freeze")
+Poison = Effect("Poison")
+Confusion = Effect("Confusion")
+Disable = Effect("Disable")
+HighCrit = Effect("HighCrit")
+Flinch = Effect("Flinch")
 
 # Stat Changes – Buffs
-Raise_Attack = effect("Raise Attack")
-Raise_Defense = effect("Raise Defense")
-Raise_Special = effect("Raise Special")
-Raise_Speed = effect("Raise Speed")
-Raise_Evasion = effect("Raise Evasion")
+Raise_Attack = Effect("Raise Attack")
+Raise_Defense = Effect("Raise Defense")
+Raise_Special = Effect("Raise Special")
+Raise_Speed = Effect("Raise Speed")
+Raise_Evasion = Effect("Raise Evasion")
 
 # Stat Changes – Debuffs
-Lower_Attack = effect("Lower Attack")
-Lower_Defense = effect("Lower Defense")
-Lower_Special = effect("Lower Special")
-Lower_Speed = effect("Lower Speed")
-Lower_Accuracy = effect("Lower Accuracy")
+Lower_Attack = Effect("Lower Attack")
+Lower_Defense = Effect("Lower Defense")
+Lower_Special = Effect("Lower Special")
+Lower_Speed = Effect("Lower Speed")
+Lower_Accuracy = Effect("Lower Accuracy")
 
-Nones = effect("None")
+Nones = Effect("None")

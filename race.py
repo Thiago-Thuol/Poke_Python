@@ -20,8 +20,12 @@ with open("Races.txt") as info:
         linhas = linhas.split(",")
         linhas[1] = linhas[1].split(" ")
         linhas[1] = list(linhas[1])
+        temp_ele =[]
+        for z in linhas[1]:
+            temp_ele.append(el.elements[z])
         linhas[2] = linhas[2].split(" ")
         linhas[2] = list(linhas[2])
-        linhas[2] = [int(i)for i in linhas[2]]
-        temp_race = race(linhas[0],linhas[1],linhas[2])
+        linhas[2] = [int(i) for i in linhas[2]]
+        temp_race = race(linhas[0],temp_ele,linhas[2])
+
 

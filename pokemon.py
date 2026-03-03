@@ -81,7 +81,7 @@ Nome: {self.name}
 Raca: {self.race._race} 
 Level: {self.lvl} XP: {self.xp} 
 Attaks: {moves_id}
-Element: {[ i.element_name for i in self.race._element]}
+Element: {[i.element_name for i in self.race._element]}
 IV: {self.iv}
 BASE STATS: {self.base}
 HP: {self.HP}
