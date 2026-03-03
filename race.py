@@ -8,21 +8,20 @@ class race:
         self._element = types
         self.base = base_stats
         races[race] = self
-        
+
     def race_id(key):
         result = races[key]
         return result
 
 
-try:
-    with open("Races.txt", "r") as info:
-        for linhas in info:
-            command = (linhas.strip())
-            exec(command)
-except:
-    while True:
-        a = input("errorr")
 
-
-
+with open("Races.txt") as info:
+    for linhas in info:
+        linhas = linhas.split(",")
+        linhas[1] = linhas[1].split(" ")
+        linhas[1] = list(linhas[1])
+        linhas[2] = linhas[2].split(" ")
+        linhas[2] = list(linhas[2])
+        linhas[2] = [int(i)for i in linhas[2]]
+        temp_race = race(linhas[0],linhas[1],linhas[2])
 

@@ -10,7 +10,7 @@ pokemons = {}
 ## classe pokemon
 
 class pokemon:
-    def __init__(self,name:str="Noob",lvl:int=0,race:rc.race=rc.Mew,xp:int=0,show_stats=True):
+    def __init__(self,name:str="Noob",lvl:int=0,race:rc.race=rc.races["Bulbasaur"],xp:int=0,show_stats=True):
         self.name = name
         self.lvl = lvl
         self.hp = 0

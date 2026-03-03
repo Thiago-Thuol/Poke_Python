@@ -1,8 +1,11 @@
+elements = {}
+
 class element:
     def __init__ (self,name: str,weakness: str="None",super_effective: str="None"):
         self.element_name = name
         self.weakness = weakness
         self.super_effective = super_effective
+        elements[name] = self
 
     def id (self):
         return (f"{self.element_name}")
