@@ -34,3 +34,5 @@ with open("Moves.txt", "r") as info:
         elemento_temp = el.elements[linhas[1]]
         temp_race = move(linhas[0],elemento_temp,linhas[2],linhas[3],linhas[4],linhas[5],linhas[6],linhas[7],linhas[8])
 print (moves["Pound"].element)
+
+can_learn = {}
