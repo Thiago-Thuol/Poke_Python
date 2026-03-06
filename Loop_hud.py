@@ -22,7 +22,7 @@ def inicio():
     else:
         print ("Resposta Invalida")
         return ("5")
-
+os.system('cls' if os.name == 'nt' else 'clear')
 ## Hud ###
 def hud():
     while True:

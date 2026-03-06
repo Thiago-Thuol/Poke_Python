@@ -14,6 +14,7 @@ class pokemon:
         self.name = name
         self.lvl = lvl
         self.hp = 0
+        self.max_hp = 0
         self.xp = xp
         self.race = race
         self.attaks = {}
@@ -66,6 +67,7 @@ class pokemon:
     def base_stat_calc(self):
         self.HP = (((2*self.base[0]+self.iv[0])*self.lvl)//100)+self.lvl+10
         self.hp = self.HP
+        self.max_hp = self.HP
         calc = lambda x,y:(((2*x+y)*self.lvl)//100)+5
         self.ATTK = calc(self.base[1],self.iv[1])
         self.DFS = calc(self.base[2],self.iv[2])

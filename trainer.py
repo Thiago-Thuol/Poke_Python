@@ -76,9 +76,12 @@ Trainer.add_trainer(nome = "Thuol")
 Trainer.add_trainer(nome = "Alfaro")
 
 
+Trainer.add_party("Thuol","Alfaro")
 
-##Trainer.add_party("Thuol",pk.Alfaro)
-##Trainer.add_party("Thuol",pk.Puta)
+
+Trainer.add_party("Alfaro","Puta")
+
+
 ##Thuol_trainer.add_party(pk.Puta)
 ##Thuol_trainer.add_party(pk.Trotsky)
 ##Thuol_trainer.add_party(pk.Mendigo)
