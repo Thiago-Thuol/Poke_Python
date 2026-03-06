@@ -4,6 +4,7 @@ import race as rc
 import move as mv
 import format_input as form
 import os
+import fight_lopp as fg
 
 
 ## funcao q retorna uma chave (5==erro)
@@ -17,7 +18,7 @@ def inicio():
         return ("2")
     elif a == "adicionar um pokemon" or a == "3" or a == "adicionar um pokemon para um treinador":
         return ("3")
-    elif a == "criar um treinador" or a == "4":
+    elif a == "batalha" or a == "4":
         return ("4")
     else:
         print ("Resposta Invalida")
@@ -27,7 +28,7 @@ os.system('cls' if os.name == 'nt' else 'clear')
 def hud():
     while True:
         print (f"{"="*100}\n{' '*20}Bem Vindo ao CRIADOR DE POKEMON PYTHON !!!!!\n{' '*15}Esse programa esta em fase de testes e bugs sao esperados\n{"="*100}")
-        print (f"Voce deseja fazer oq?\n\n1)Criar um treinador\n2)Criar um Pokemon\n3)Adicionar um pokemon para um treinador\n4)Obter informacao de algum treinador/Pokemon\n")
+        print (f"Voce deseja fazer oq?\n\n1)Criar um treinador\n2)Criar um Pokemon\n3)Adicionar um pokemon para um treinador\n4)Batalhar\n")
         key = "5"
         while key == "5":
             key = inicio()
@@ -89,4 +90,13 @@ def hud():
                 os.system('cls' if os.name == 'nt' else 'clear')
         
         if key == "4":
-            os.system('cls' if os.name == 'nt' else 'clear')
+            try:
+                treinadore_temp = [i for i in tr.trainers.keys()]
+                print (f"\nTreinadores disponiveis: {treinadore_temp}\n")
+                player1 = form.format_names(input("Nome do Player 1 (you): "))
+                treinadore_temp.remove(player1)
+                print (f"\nTreinadores disponiveis: {treinadore_temp}\n")
+                player2 = form.format_names(input("Nome do Player 2: "))
+                fg.battle(player2,player1)
+            except:
+                print("Desculpe, Treinador indisponivel")
