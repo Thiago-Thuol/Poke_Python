@@ -29,10 +29,12 @@ with open("Moves.txt", "r") as info:
         linhas[5] = int(linhas[5])
         linhas[5] = int(linhas[5])
         linhas[6] = int(linhas[6])
-        linhas[7] = int(linhas[7])
-        effec_temp = ef.Effect(linhas[4])
+        linhas[8] = int(linhas[8])
+        effect_temp = ef.effects[linhas[7]]
+        type_temp = ef.Effect(linhas[4])
         elemento_temp = el.elements[linhas[1]]
-        temp_race = move(linhas[0],elemento_temp,linhas[2],linhas[3],linhas[4],linhas[5],linhas[6],linhas[7],linhas[8])
-print (moves["Pound"].element)
+        temp_race = move(linhas[0],type_temp,linhas[2],linhas[3],linhas[4],linhas[5],linhas[6],linhas[7],linhas[8],linhas[9])
+
+teste = move(name="Teste",element=el.elements["Fire"],power=100,accuracy=100,category="status",PP=10,priority=1,effect=ef.Burn,multi_hit=2,recoil=0)
 
 can_learn = {}

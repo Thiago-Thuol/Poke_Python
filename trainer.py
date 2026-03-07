@@ -8,7 +8,6 @@ class Trainer:
     def __init__ (self,name:str="shu"):
         self.name = name
         self.party = []
-        print (trainers)
 
 ## criar um treinador
 
@@ -22,9 +21,8 @@ class Trainer:
 
         if nome not in trainers: 
             novo = Trainer(nome)
-            novo.id_trainer()
             novo.lista_add()
-            print(trainers)
+            print(f"\nTreinador criado com sucesso!\n\nTreinadores: {[i for i in trainers.keys()]}")
         else:
             print ("\nJogador ja existe\n")
 

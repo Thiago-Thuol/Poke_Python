@@ -6,6 +6,14 @@ import format_input as form
 import os
 
 
+## draw lowe part none
+
+def draw_basic_lower(name2):
+    print (f"{"="*100}\n{' '*35}Player: {name2}\n\n1)Ataque{' '*20}2)Bag\n3)Pokemons{' '*18}4)fugir\n\n{"="*100}\n")
+
+
+
+
 
 ##calc life bar 
 
@@ -57,11 +65,11 @@ def battle(nome1_inp,nomme2_inp):
         print ("HP["+ "#"*count_play2+"-"*not_count2+"]")
         print (f"     {total_life[name2]}"+"/"+f"{tr.trainers[name2].party[0].max_hp}\n")
 
-        print (f"{"="*100}\n{' '*35}Player: {name2}\n\n1)Ataque{' '*20}2)Bag\n3)Pokemons{' '*18}4)fugir\n\n{"="*100}\n")
-
+        draw_basic_lower(name2)
 
 
         total_life[name1] -= 1
         i = input("")
         Round += 1
         os.system('cls' if os.name == 'nt' else 'clear')
+battle("Thuol","Alfaro")

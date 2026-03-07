@@ -36,7 +36,7 @@ def hud():
 ##Criar treinador
 
         if key == "1":
-            answer = form.format_names(input("Nome do treinador: "))
+            answer = form.format_names(input("\nNome do treinador: "))
             tr.Trainer.add_trainer(answer)
             continuar = input("continue")
             os.system('cls' if os.name == 'nt' else 'clear')
@@ -44,12 +44,24 @@ def hud():
 ##Criar Pokemon
 
         elif key == "2":
-            Nome_pk = form.format_names(input("Digite o nome do pokemon: "))
-            LVL_pk = int((input("Digite o level do pokemon: ")))
-            print (f"Pokemons disponiveis: {[i for i in rc.races.keys()]}")
-            race_pk = form.format_names(input("Digite a raca do pokemon: "))
-            pk.pokemon.build_pk(Nome_pk,LVL_pk,race_pk)
-            continuar = input("continue")
+            try:
+                os.system('cls' if os.name == 'nt' else 'clear')
+                print (f"Nomes ja usados {[i for i in pk.pokemons.keys()]}\n")
+                Nome_pk = form.format_names(input("\nDigite o nome do pokemon: "))
+                LVL_pk = int((input("\nDigite o level do pokemon: ")))
+                if LVL_pk >100 or LVL_pk <1:
+                    print ("\nERRO\nO level deve ser um numero entre 1 e 100 !")
+                    continuar = input("continue")
+                else:
+                    print (f"Pokemons disponiveis: {[i for i in rc.races.keys()]}")
+                    race_pk = form.format_names(input("Digite a raca do pokemon: "))
+                    os.system('cls' if os.name == 'nt' else 'clear')
+                    pk.pokemon.build_pk(Nome_pk,LVL_pk,race_pk)
+                    print (f"\nSucesso!\n Pokemons disponiveis: {[i for i in pk.pokemons.keys()]}\n")
+                    continuar = input("continue")
+            except:
+                print(f"\nInput invalido")
+                continuar = input("continue")
             os.system('cls' if os.name == 'nt' else 'clear')
 
 ##MOVE SET

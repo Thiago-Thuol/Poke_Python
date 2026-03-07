@@ -10,7 +10,7 @@ pokemons = {}
 ## classe pokemon
 
 class pokemon:
-    def __init__(self,name:str="Noob",lvl:int=0,race:rc.race=rc.races["Bulbasaur"],xp:int=0,show_stats=True):
+    def __init__(self,name:str="Noob",lvl:int=0,race:rc.race=rc.races["Bulbasaur"],xp:int=0):
         self.name = name
         self.lvl = lvl
         self.hp = 0
@@ -28,13 +28,11 @@ class pokemon:
         self.SP_DEF = 0
         self.SPPD = 0
         self.base_stat_calc()
-        if show_stats == True:
-            print (self.id())
 
 
 ## adiciona um  movimento
 
-    def add_mov(nome,movi):
+    def add_mov(nome,movi,show=True):
         if nome in pokemons.keys() and movi in mv.moves.keys():
             temp_poke = pokemons[nome]
             temp_attack = mv.moves[movi]
@@ -42,7 +40,8 @@ class pokemon:
             if movi in rc.races_learn[temp_poke.race._race]:
                 temp_poke.attaks[movi] = temp_attack
                 temp_poke.attaks_pp[movi] = temp_pp
-                print (temp_poke.id())
+                if show == True:
+                    print (temp_poke.id())
             else:
                 print ("Esse pokemon nao pode aprender esse ataque")
         else:
@@ -50,15 +49,16 @@ class pokemon:
             print (f"\nPokemon ou Move nao existe\n")
 ## criar um pokemon
 
-    def build_pk (nome,lvl,race,stats=0):
+    def build_pk (nome,lvl,race):
         if nome not in pokemons.keys():
             temp_race = rc.race.race_id(race)
-            temp_poke = pokemon(name=nome,lvl=lvl,race=temp_race,show_stats=stats)
+            temp_poke = pokemon(name=nome,lvl=lvl,race=temp_race)
             pokemons[nome] = temp_poke
             for i in range(4):
                 temp_index = rm.randint(0,len(rc.races_learn[race]))-1
                 move = (rc.races_learn[race][temp_index])
-                pokemon.add_mov(nome,move)
+                pokemon.add_mov(nome,move,show=False)
+            print (temp_poke.id())
         else:
             print ("Pokemon ja existe")
 
@@ -108,19 +108,19 @@ SPEED: {self.SPPD}
     
 #### POKEMONS BASE PARA TESTES#####
 
-pokemon.build_pk(nome='Thuol',lvl=10,race="Bulbasaur",stats=False)
+pokemon.build_pk(nome='Thuol',lvl=10,race="Bulbasaur")
 
-pokemon.build_pk(nome='Alfaro',lvl=15,race="Charmander",stats=False)
+pokemon.build_pk(nome='Alfaro',lvl=15,race="Charmander")
 
-pokemon.build_pk(nome='Trotsky',lvl=25,race="Abra",stats=False)
+pokemon.build_pk(nome='Trotsky',lvl=25,race="Abra")
 
-pokemon.build_pk(nome='Puta',lvl=1,race="Vaporeon",stats=False)
+pokemon.build_pk(nome='Puta',lvl=1,race="Vaporeon")
 
-pokemon.build_pk(nome='Mendigo',lvl=50,race="Gengar",stats=False)
+pokemon.build_pk(nome='Mendigo',lvl=50,race="Gengar")
 
-pokemon.build_pk(nome='Lula',lvl=100,race="Tentacool",stats=False)
+pokemon.build_pk(nome='Lula',lvl=100,race="Tentacool")
 
-pokemon.build_pk(nome='Gui',lvl=100,race="Grimer",stats=False)
+pokemon.build_pk(nome='Gui',lvl=100,race="Grimer")
 
 pokemon.add_mov("Alfaro","Growl")
 
