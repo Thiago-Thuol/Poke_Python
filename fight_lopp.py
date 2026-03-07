@@ -72,4 +72,3 @@ def battle(nome1_inp,nomme2_inp):
         i = input("")
         Round += 1
         os.system('cls' if os.name == 'nt' else 'clear')
-battle("Thuol","Alfaro")
