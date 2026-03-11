@@ -102,7 +102,6 @@ def hud():
                 os.system('cls' if os.name == 'nt' else 'clear')
         
         if key == "4":
-            try:
                 treinadore_temp = [i for i in tr.trainers.keys()]
                 print (f"\nTreinadores disponiveis: {treinadore_temp}\n")
                 player1 = form.format_names(input("Nome do Player 1 (you): "))
@@ -110,5 +109,3 @@ def hud():
                 print (f"\nTreinadores disponiveis: {treinadore_temp}\n")
                 player2 = form.format_names(input("Nome do Player 2: "))
                 fg.battle(player2,player1)
-            except:
-                print("Desculpe, Treinador indisponivel")
