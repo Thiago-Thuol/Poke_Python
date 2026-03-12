@@ -36,5 +36,3 @@ with open("Moves.txt", "r") as info:
         temp_race = move(linhas[0],type_temp,linhas[2],linhas[3],linhas[4],linhas[5],linhas[6],linhas[7],linhas[8],linhas[9])
 
 teste = move(name="Teste",element=el.elements["Fire"],power=100,accuracy=100,category="status",PP=10,priority=1,effect=ef.Burn,multi_hit=2,recoil=0)
-
-can_learn = {}

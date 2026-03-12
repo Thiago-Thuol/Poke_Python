@@ -2,6 +2,7 @@ import race as rc
 import element as el
 import move as mv
 import random as rm
+import format_input as fm
 
 ##lista com todos pokemons
 
@@ -17,7 +18,7 @@ class pokemon:
         self.max_hp = 0
         self.xp = xp
         self.race = race
-        self.attaks = {}
+        self.attaks = [{},{},{},{}]
         self.attaks_pp = {}
         self.base = race.base
         self.iv = [rm.randrange(1,31) for i in range(6)]
@@ -32,20 +33,60 @@ class pokemon:
 
 ## adiciona um  movimento
 
-    def add_mov(nome,movi,show=True):
-        if nome in pokemons.keys() and movi in mv.moves.keys():
+    def add_mov(nome,sure_mov):
+
+##MUDAR ATAQUE
+
+        if nome in pokemons.keys() and sure_mov == False:
             temp_poke = pokemons[nome]
-            temp_attack = mv.moves[movi]
-            temp_pp = temp_attack.PP
-            if movi in rc.races_learn[temp_poke.race._race]:
-                temp_poke.attaks[movi] = temp_attack
-                temp_poke.attaks_pp[movi] = temp_pp
-                if show == True:
+            temp_race = temp_poke.race._race
+            print (f"Moves para esse Pokemon\n{rc.races_learn[temp_race]}")
+
+## ESCHOLHER MOVE
+
+            movi = fm.format_names(input("Escolha o Move:\n"))
+            if movi in mv.moves.keys() and movi in rc.races_learn[temp_race]:
+                temp_attack = mv.moves[movi]
+                temp_pp = temp_attack.PP
+                if len([i for i in temp_poke.attaks.keys()]) == 4:
+                    temp_attack_id = [i for i in temp_poke.attaks.keys()]
+
+## SUBSTITUIR MOVE
+
+                    print (f"Qual move voce quer substituir?\n{temp_attack_id}")
+                    substituir = fm.format_names((input("Escolha 1 2 3 4:\n")))
+                    match substituir:
+                        case "1" |"2" |"3" |"4":
+                            substituir = int(substituir)
+                            remove = temp_attack_id[substituir-1]
+                            temp_attack_id.remove(remove)
+                            temp_poke.attaks.pop(remove)
+                            print (temp_poke.id())
+
+                else:
+                    temp_poke.attaks[movi] = temp_attack
+                    temp_poke.attaks_pp[movi] = temp_pp
                     print (temp_poke.id())
             else:
                 print ("Esse pokemon nao pode aprender esse ataque")
+
+##CRIANDO POKEMON NAO PRECISO ESCOLHER
+
+        elif nome in pokemons.keys() and sure_mov != 1:
+            temp_poke = pokemons[nome]
+            temp_race = temp_poke.race._race
+            movi = sure_mov
+            if movi in mv.moves.keys() and movi in rc.races_learn[temp_race]:
+                for i in temp_poke.attaks:
+                    if len(i) == 0 and movi not in i:      
+                        temp_attack = mv.moves[movi]
+                        temp_pp = temp_attack.PP
+                        i[movi] = temp_attack
+                        temp_poke.attaks_pp[movi] = temp_pp
+                        break
+                print (temp_poke.id())
         else:
-            print (movi)
+            print (sure_mov)
             print (f"\nPokemon ou Move nao existe\n")
 ## criar um pokemon
 
@@ -57,7 +98,7 @@ class pokemon:
             for i in range(4):
                 temp_index = rm.randint(0,len(rc.races_learn[race]))-1
                 move = (rc.races_learn[race][temp_index])
-                pokemon.add_mov(nome,move,show=False)
+                pokemon.add_mov(nome,move)
             print (temp_poke.id())
         else:
             print ("Pokemon ja existe")
@@ -86,7 +127,9 @@ class pokemon:
 ## formatacao dos textos do ataque 
 
     def id (self):
-        moves_id = ["Move: "+i+" PP: "+f"{self.attaks_pp[i]}" for i in self.attaks]
+        moves_id = []
+        for i in self.attaks:
+            
 
 ## func para mostrar info do pokemon
 
@@ -114,7 +157,7 @@ pokemon.build_pk(nome='Alfaro',lvl=15,race="Charmander")
 
 pokemon.build_pk(nome='Trotsky',lvl=25,race="Abra")
 
-pokemon.build_pk(nome='Puta',lvl=1,race="Vaporeon")
+pokemon.build_pk(nome='Puta',lvl=10,race="Vaporeon")
 
 pokemon.build_pk(nome='Mendigo',lvl=50,race="Gengar")
 
@@ -122,6 +165,4 @@ pokemon.build_pk(nome='Lula',lvl=100,race="Tentacool")
 
 pokemon.build_pk(nome='Gui',lvl=100,race="Grimer")
 
-pokemon.add_mov("Alfaro","Growl")
-
-pokemon.add_mov("Alfaro","Surf")
+pokemon.add_mov("Gui",0)

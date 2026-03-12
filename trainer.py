@@ -74,10 +74,10 @@ Trainer.add_trainer(nome = "Thuol")
 Trainer.add_trainer(nome = "Alfaro")
 
 
-Trainer.add_party("Thuol","Alfaro")
+Trainer.add_party("Thuol","Gui")
 
 
-Trainer.add_party("Alfaro","Puta")
+Trainer.add_party("Alfaro","Lula")
 
 
 ##Thuol_trainer.add_party(pk.Puta)

@@ -7,43 +7,22 @@ import os
 import fight_lopp as fg
 
 
-## funcao q retorna uma chave (5==erro)
+
 
 def inicio():
     a = form.format(input("Resposta : "))
 
-    if a == "criar um treinador" or a == "1":
-        return ("1")
-    elif a == "criar um pokemon" or a == "2":
-        return ("2")
-    elif a == "adicionar um pokemon" or a == "3" or a == "adicionar um pokemon para um treinador":
-        return ("3")
-    elif a == "batalha" or a == "4":
-        return ("4")
-    else:
-        print ("Resposta Invalida")
-        return ("5")
-os.system('cls' if os.name == 'nt' else 'clear')
-## Hud ###
-def hud():
-    while True:
-        print (f"{"="*100}\n{' '*20}Bem Vindo ao CRIADOR DE POKEMON PYTHON !!!!!\n{' '*15}Esse programa esta em fase de testes e bugs sao esperados\n{"="*100}")
-        print (f"Voce deseja fazer oq?\n\n1)Criar um treinador\n2)Criar um Pokemon\n3)Adicionar um pokemon para um treinador\n4)Batalhar\n")
-        key = "5"
-        while key == "5":
-            key = inicio()
-
-##Criar treinador
-
-        if key == "1":
+    match a:
+        case "criar um treinador" | "1":
+        ##Criar treinador
             answer = form.format_names(input("\nNome do treinador: "))
             tr.Trainer.add_trainer(answer)
             continuar = input("continue")
             os.system('cls' if os.name == 'nt' else 'clear')
 
-##Criar Pokemon
-
-        elif key == "2":
+            
+        case "criar um pokemon" | "2":
+            ##Criar Pokemon
             try:
                 os.system('cls' if os.name == 'nt' else 'clear')
                 print (f"Nomes ja usados {[i for i in pk.pokemons.keys()]}\n")
@@ -64,9 +43,11 @@ def hud():
                 continuar = input("continue")
             os.system('cls' if os.name == 'nt' else 'clear')
 
-##MOVE SET
 
-        elif key == "3":
+        case "adicionar um pokemon" | "3" |"adicionar um pokemon para um treinador":
+
+##MOVE SET
+    
             print(f"1) ADD_pokemon\n2) DEL_pokemon\n")
             answer = form.format(input("resposta: "))
 
@@ -100,12 +81,34 @@ def hud():
                 tr.Trainer.del_party(Nome_treinador,Nome_pk)
                 continuar = input("continue")
                 os.system('cls' if os.name == 'nt' else 'clear')
-        
-        if key == "4":
+
+## ADD MOVE
+
+        case "add ataque" | "adicionar ataque" | "4":
+            print (f"Pokemons Disponiveis {[i for i in pk.pokemons.keys()]}\n")
+            Nome_pk = form.format_names(input("Digite o nome do pokemon: "))
+            pk.pokemon.add_mov(Nome_pk)
+            continuar = input("continue")
+            os.system('cls' if os.name == 'nt' else 'clear')
+            
+## BATALHAR
+        case "batalha" |"6":
+                
                 treinadore_temp = [i for i in tr.trainers.keys()]
                 print (f"\nTreinadores disponiveis: {treinadore_temp}\n")
                 player1 = form.format_names(input("Nome do Player 1 (you): "))
                 treinadore_temp.remove(player1)
                 print (f"\nTreinadores disponiveis: {treinadore_temp}\n")
                 player2 = form.format_names(input("Nome do Player 2: "))
-                fg.battle(player2,player1)
+                fg.battle(player1,player2)
+
+        case _ :
+            print ("Resposta Invalida")
+            os.system('cls' if os.name == 'nt' else 'clear')
+## Hud ###
+def hud():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    while True:
+        print (f"{"="*100}\n{' '*20}Bem Vindo ao CRIADOR DE POKEMON PYTHON !!!!!\n{' '*15}Esse programa esta em fase de testes e bugs sao esperados\n{"="*100}")
+        print (f"Voce deseja fazer oq?\n\n1)Criar um treinador\n2)Criar um Pokemon\n3)Adicionar um pokemon para um treinador\n4)Adicionar Ataque para um pokemon\n5)ID Pokemon/Treinador\n6)Batalhar\n")
+        inicio()

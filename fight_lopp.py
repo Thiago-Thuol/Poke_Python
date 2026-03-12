@@ -12,25 +12,25 @@ def draw_top_part(enemy,you,Round):
 
     print (f"{"="*100}\n{' '*35}MODO DE BATALHA !!!!!\n{' '*40}{you} vs {enemy}\n{' '*40}Round :{Round}\n{"="*100}\n")
 
-def draw_p1(enemy,total_life,your_pk_lvl,enemypk):
+def draw_enemy(enemy,total_life,enemypk,enemy_pk_lv):
 ##     player 1
-
+    print (enemypk)
     count_play1 = life_bar(enemypk,total_life)
     not_count1 = 10-count_play1
 
     print (" "*75+f"Player: {enemy}\n")
-    print (" "*75+f"{enemypk}"+" ("+f"{pk.pokemons[enemypk].race._race}  Lv. {your_pk_lvl}"")")
+    print (" "*75+f"{enemypk}"+" ("+f"{pk.pokemons[enemypk].race._race}  Lv. {enemy_pk_lv}"")")
     print (" "*75+"HP["+ "#"*count_play1+"-"*not_count1+"]")
     print (" "*75+f"     {total_life[enemypk]}"+"/"+f"{pk.pokemons[enemypk].max_hp}\n\n")
 
 
-def draw_p2(you,total_life,your_pk_lv,yourpk):
+def draw_you(you,total_life,your_pk_lvl,yourpk):
 ## player 2
 
     count_play2 = life_bar(yourpk,total_life)
     not_count2 = 10-count_play2
 
-    print (f"{yourpk}"+" ("+f"{pk.pokemons[yourpk].race._race}  Lv. {your_pk_lv}"")")
+    print (f"{yourpk}"+" ("+f"{pk.pokemons[yourpk].race._race}  Lv. {your_pk_lvl}"")")
     print ("HP["+ "#"*count_play2+"-"*not_count2+"]")
     print (f"     {total_life[yourpk]}"+"/"+f"{pk.pokemons[yourpk].max_hp}\n")
 
@@ -55,9 +55,9 @@ def draw_attack_lower(enemypk,yourpk,your_pk_lvl,enemy_pk_lv,total_life,enemy,yo
    
     draw_top_part(enemy,you,Round)
 
-    draw_p1(enemy,total_life,your_pk_lvl,enemypk)
+    draw_enemy(enemy,total_life,enemypk,enemy_pk_lv)
 
-    draw_p2(you,total_life,enemy_pk_lv,yourpk)
+    draw_you(you,total_life,your_pk_lvl,yourpk)
 
     while len(attacks_display) < 4:
         attacks_display.append("Empty")
@@ -95,14 +95,14 @@ def life_bar(name,total_life):
 
 ##start######
 
-def battle(nome1_inp,nomme2_inp):
+def battle(you_inp,enemy_inp):
     os.system('cls' if os.name == 'nt' else 'clear')
 
-    enemy = nome1_inp  ##ENEMY
-    you = nomme2_inp ##YOU
+    enemy = enemy_inp  ##ENEMY
+    you = you_inp ##YOU
 
-    yourpk = tr.trainers[nome1_inp].party[0].name  ###ENEMY POK
-    enemypk = tr.trainers[nomme2_inp].party[0].name ###YOUR POK
+    yourpk = tr.trainers[you_inp].party[0].name  ###ENEMY POK
+    enemypk = tr.trainers[enemy_inp].party[0].name ###YOUR POK
 
     your_pk_lvl = pk.pokemons[yourpk].lvl ### YOUR LEVEL
     enemy_pk_lv = pk.pokemons[enemypk].lvl ###ENEMY LEVEL
@@ -131,10 +131,9 @@ def battle(nome1_inp,nomme2_inp):
     while True :
 
         draw_top_part(enemy,you,Round)
+        draw_enemy(enemy,total_life,enemypk,enemy_pk_lv)
 
-        draw_p1(enemy,total_life,your_pk_lvl,enemypk)
-
-        draw_p2(you,total_life,enemy_pk_lv,yourpk)
+        draw_you(you,total_life,your_pk_lvl,yourpk)
 
 
 ##interative part
@@ -149,10 +148,10 @@ def battle(nome1_inp,nomme2_inp):
                         attack_chosen = int(attack_chosen)-1
                         if mv.moves[attacks_display[attack_chosen]].category == "Physical":
                             damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[attack_chosen]].power*your_ATTK)//enemy_defense)//50+2)
-                        elif mv.moves[attacks_display[0]].category == "Special":
+                        elif mv.moves[attacks_display[attack_chosen]].category == "Special":
                             damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[attack_chosen]].power*yout_SPATTK)//enemy_SPdefense)/50+2)
                         else:
-                            return 0
+                            damage = 1
                     case _: 
                         return 0
  
@@ -170,3 +169,5 @@ def battle(nome1_inp,nomme2_inp):
         Round += 1
         os.system('cls' if os.name == 'nt' else 'clear')
         print (damage)
+        print (your_pk_lvl)
+battle("Thuol","Alfaro")
