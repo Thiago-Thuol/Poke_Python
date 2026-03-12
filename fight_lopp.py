@@ -5,6 +5,10 @@ import move as mv
 import format_input as form
 import os
 
+def clean():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
 ### draw battle 
 
 def draw_top_part(enemy,you,Round):
@@ -14,7 +18,6 @@ def draw_top_part(enemy,you,Round):
 
 def draw_enemy(enemy,total_life,enemypk,enemy_pk_lv):
 ##     player 1
-    print (enemypk)
     count_play1 = life_bar(enemypk,total_life)
     not_count1 = 10-count_play1
 
@@ -51,7 +54,7 @@ def draw_basic_lower(you):
 
 def draw_attack_lower(enemypk,yourpk,your_pk_lvl,enemy_pk_lv,total_life,enemy,you,Round,attacks_display,attacks_display_PP=0):
 
-    os.system('cls' if os.name == 'nt' else 'clear')
+    clean()
    
     draw_top_part(enemy,you,Round)
 
@@ -96,7 +99,7 @@ def life_bar(name,total_life):
 ##start######
 
 def battle(you_inp,enemy_inp):
-    os.system('cls' if os.name == 'nt' else 'clear')
+    clean()
 
     enemy = enemy_inp  ##ENEMY
     you = you_inp ##YOU
@@ -117,7 +120,17 @@ def battle(you_inp,enemy_inp):
 
     Round = 1
 
-    attacks_display = [i for i in pk.pokemons[yourpk].attaks.keys()]
+    attacks_display = []
+
+    for i in pk.pokemons[yourpk].attaks:
+        name = ([j for j in i])
+        for index in name:
+            attacks_display.append(index)
+    PP_id = []
+    for i in pk.pokemons[yourpk].attaks_pp:
+        PPSd = ([j for j in i.values()])
+        for index in PPSd:
+            PP_id.append(index)
 
     attacks_display_PP = []
 
@@ -167,7 +180,6 @@ def battle(you_inp,enemy_inp):
 
         total_life[enemypk] -= damage
         Round += 1
-        os.system('cls' if os.name == 'nt' else 'clear')
+        clean()
         print (damage)
-        print (your_pk_lvl)
-battle("Thuol","Alfaro")
+##battle("Thuol","Alfaro")

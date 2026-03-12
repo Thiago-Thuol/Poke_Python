@@ -19,7 +19,7 @@ class pokemon:
         self.xp = xp
         self.race = race
         self.attaks = [{},{},{},{}]
-        self.attaks_pp = {}
+        self.attaks_pp = [{},{},{},{}]
         self.base = race.base
         self.iv = [rm.randrange(1,31) for i in range(6)]
         self.HP = 0
@@ -33,58 +33,58 @@ class pokemon:
 
 ## adiciona um  movimento
 
-    def add_mov(nome,sure_mov):
-
+    def add_mov(nome,sure_mov,id_chosen=0):
+        temp_poke = pokemons[nome]
+        temp_race = temp_poke.race._race
+        movi = sure_mov
+        attack_list = []
+        for i in temp_poke.attaks:
+            name = ([j for j in i])
+            for index in name:
+                attack_list.append(index)
+        print (f"Ataques do seu pokemon: {attack_list}")
 ##MUDAR ATAQUE
 
         if nome in pokemons.keys() and sure_mov == False:
-            temp_poke = pokemons[nome]
-            temp_race = temp_poke.race._race
             print (f"Moves para esse Pokemon\n{rc.races_learn[temp_race]}")
 
 ## ESCHOLHER MOVE
 
-            movi = fm.format_names(input("Escolha o Move:\n"))
-            if movi in mv.moves.keys() and movi in rc.races_learn[temp_race]:
+            movi = (input("Escolha o Move (escreva certo pfv):\n"))
+            if movi in mv.moves.keys() and movi in rc.races_learn[temp_race] and movi not in attack_list:
                 temp_attack = mv.moves[movi]
                 temp_pp = temp_attack.PP
-                if len([i for i in temp_poke.attaks.keys()]) == 4:
-                    temp_attack_id = [i for i in temp_poke.attaks.keys()]
-
+                quantidade_pool = len(attack_list)
+                if quantidade_pool == 4:
 ## SUBSTITUIR MOVE
 
-                    print (f"Qual move voce quer substituir?\n{temp_attack_id}")
+                    print (f"Qual move voce quer substituir?\n{attack_list}")
                     substituir = fm.format_names((input("Escolha 1 2 3 4:\n")))
                     match substituir:
                         case "1" |"2" |"3" |"4":
                             substituir = int(substituir)
-                            remove = temp_attack_id[substituir-1]
-                            temp_attack_id.remove(remove)
-                            temp_poke.attaks.pop(remove)
+                            pop_item = (attack_list[substituir-2])
+                            print (pop_item)
+                            pokemons[nome].attaks[substituir-2].pop(pop_item)
+                            pokemons[nome].attaks[substituir-2][movi] = temp_attack
                             print (temp_poke.id())
 
                 else:
-                    temp_poke.attaks[movi] = temp_attack
-                    temp_poke.attaks_pp[movi] = temp_pp
+                    pokemons[nome].attaks[quantidade_pool-2][movi] = temp_attack
                     print (temp_poke.id())
             else:
                 print ("Esse pokemon nao pode aprender esse ataque")
 
 ##CRIANDO POKEMON NAO PRECISO ESCOLHER
 
-        elif nome in pokemons.keys() and sure_mov != 1:
-            temp_poke = pokemons[nome]
-            temp_race = temp_poke.race._race
-            movi = sure_mov
-            if movi in mv.moves.keys() and movi in rc.races_learn[temp_race]:
-                for i in temp_poke.attaks:
-                    if len(i) == 0 and movi not in i:      
-                        temp_attack = mv.moves[movi]
-                        temp_pp = temp_attack.PP
-                        i[movi] = temp_attack
-                        temp_poke.attaks_pp[movi] = temp_pp
-                        break
-                print (temp_poke.id())
+        elif nome in pokemons.keys() and sure_mov != 1 and movi in rc.races_learn[temp_race] and movi not in attack_list:
+            if movi in mv.moves.keys():                                                   
+                    print (movi)
+                    temp_attack = mv.moves[movi]
+                    temp_pp = temp_attack.PP
+                    temp_poke.attaks[id_chosen][movi] = temp_attack
+                    temp_poke.attaks_pp[id_chosen][movi] = temp_pp
+            print (temp_poke.id())
         else:
             print (sure_mov)
             print (f"\nPokemon ou Move nao existe\n")
@@ -98,7 +98,7 @@ class pokemon:
             for i in range(4):
                 temp_index = rm.randint(0,len(rc.races_learn[race]))-1
                 move = (rc.races_learn[race][temp_index])
-                pokemon.add_mov(nome,move)
+                pokemon.add_mov(nome,move,id_chosen=i)
             print (temp_poke.id())
         else:
             print ("Pokemon ja existe")
@@ -127,9 +127,19 @@ class pokemon:
 ## formatacao dos textos do ataque 
 
     def id (self):
-        moves_id = []
+        attacks_id = []
         for i in self.attaks:
-            
+            name = ([j for j in i])
+            for index in name:
+                attacks_id.append(index)
+        PP_id = []
+        for i in self.attaks_pp:
+            PPSd = ([j for j in i.values()])
+            for index in PPSd:
+                PP_id.append(index)
+        moves_id = []
+        for i in range(len(attacks_id)):
+            moves_id.append(f"{attacks_id[i-1]} PP: {PP_id[i-1]}")
 
 ## func para mostrar info do pokemon
 
@@ -159,10 +169,10 @@ pokemon.build_pk(nome='Trotsky',lvl=25,race="Abra")
 
 pokemon.build_pk(nome='Puta',lvl=10,race="Vaporeon")
 
-pokemon.build_pk(nome='Mendigo',lvl=50,race="Gengar")
-
 pokemon.build_pk(nome='Lula',lvl=100,race="Tentacool")
 
 pokemon.build_pk(nome='Gui',lvl=100,race="Grimer")
 
-pokemon.add_mov("Gui",0)
+pokemon.build_pk(nome='Mendigo',lvl=50,race="Gengar")
+
+pokemon.add_mov("Mendigo",0)
