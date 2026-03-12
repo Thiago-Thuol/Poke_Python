@@ -174,5 +174,3 @@ pokemon.build_pk(nome='Lula',lvl=100,race="Tentacool")
 pokemon.build_pk(nome='Gui',lvl=100,race="Grimer")
 
 pokemon.build_pk(nome='Mendigo',lvl=50,race="Gengar")
-
-pokemon.add_mov("Mendigo",0)
