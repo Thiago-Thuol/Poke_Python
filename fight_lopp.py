@@ -145,32 +145,12 @@ def battle(nome1_inp,nomme2_inp):
             case "1":
                 attack_chosen = draw_attack_lower(enemypk,yourpk,your_pk_lvl,enemy_pk_lv,total_life,enemy,you,Round, attacks_display,attacks_display_PP)
                 match attack_chosen:
-                    case "1":
-                        if mv.moves[attacks_display[0]].category == "Physical":
-                            damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[0]].power*your_ATTK)//enemy_defense)//50+2)
+                    case "1" | "2" | "3" | "4":
+                        attack_chosen = int(attack_chosen)-1
+                        if mv.moves[attacks_display[attack_chosen]].category == "Physical":
+                            damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[attack_chosen]].power*your_ATTK)//enemy_defense)//50+2)
                         elif mv.moves[attacks_display[0]].category == "Special":
-                            damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[0]].power*yout_SPATTK)//enemy_SPdefense)/50+2)
-                        else:
-                            return 0
-                    case "2":
-                        if mv.moves[attacks_display[1]].category == "Physical":
-                            damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[1]].power*your_ATTK)//enemy_defense)/50+2)
-                        elif mv.moves[attacks_display[1]].category == "Special":
-                            damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[1]].power*yout_SPATTK)//enemy_SPdefense)/50+2)
-                        else:
-                            return 0
-                    case "3":
-                        if mv.moves[attacks_display[2]].category == "Physical":
-                            damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[2]].power*your_ATTK)//enemy_defense)/50+2)
-                        elif mv.moves[attacks_display[2]].category == "Special":
-                            damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[2]].power*yout_SPATTK)//enemy_SPdefense)/50+2)
-                        else:
-                            return 0
-                    case "4":
-                        if mv.moves[attacks_display[3]].category == "Physical":
-                            damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[3]].power*your_ATTK)//enemy_defense)/50+2)
-                        elif mv.moves[attacks_display[3]].category == "Special":
-                            damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[3]].power*yout_SPATTK)//enemy_SPdefense)/50+2)
+                            damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[attack_chosen]].power*yout_SPATTK)//enemy_SPdefense)/50+2)
                         else:
                             return 0
                     case _: 
