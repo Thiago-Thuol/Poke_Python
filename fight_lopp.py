@@ -4,6 +4,8 @@ import race as rc
 import move as mv
 import format_input as form
 import os
+import paint as pnt
+import show_poke as sw
 
 def clean():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -17,26 +19,30 @@ def draw_top_part(enemy,you,Round):
     print (f"{"="*100}\n{' '*35}MODO DE BATALHA !!!!!\n{' '*40}{you} vs {enemy}\n{' '*40}Round :{Round}\n{"="*100}\n")
 
 def draw_enemy(enemy,total_life,enemypk,enemy_pk_lv):
-##     player 1
+##     player enemy
     count_play1 = life_bar(enemypk,total_life)
     not_count1 = 10-count_play1
 
-    print (" "*75+f"Player: {enemy}\n")
-    print (" "*75+f"{enemypk}"+" ("+f"{pk.pokemons[enemypk].race._race}  Lv. {enemy_pk_lv}"")")
-    print (" "*75+"HP["+ "#"*count_play1+"-"*not_count1+"]")
-    print (" "*75+f"     {total_life[enemypk]}"+"/"+f"{pk.pokemons[enemypk].max_hp}\n\n")
-
+    draw_enem_text =[
+         (f"Player: {enemy}"),
+        (f"{enemypk}"+" ("+f"{pk.pokemons[enemypk].race._race}  {pnt.amarelo("Lv.")} {enemy_pk_lv}"")"),
+        (  pnt.amarelo("HP")  + "["+ pnt.verde("#"*count_play1) + "-"*not_count1+"]"),
+        (f"     {total_life[enemypk]}"+"/"+f"{pk.pokemons[enemypk].max_hp}")
+    ]
+    sw.draw_poke_enemy(pk.pokemons[enemypk].race._race,draw_enem_text,(f"{enemy_pk_lv}"))
 
 def draw_you(you,total_life,your_pk_lvl,yourpk):
-## player 2
+## player you
 
     count_play2 = life_bar(yourpk,total_life)
     not_count2 = 10-count_play2
 
-    print (f"{yourpk}"+" ("+f"{pk.pokemons[yourpk].race._race}  Lv. {your_pk_lvl}"")")
-    print ("HP["+ "#"*count_play2+"-"*not_count2+"]")
-    print (f"     {total_life[yourpk]}"+"/"+f"{pk.pokemons[yourpk].max_hp}\n")
-
+    draw_you_text = [
+        (f"{yourpk}"+" ("+f"{pk.pokemons[yourpk].race._race}  {pnt.amarelo("Lv.")} {your_pk_lvl}"")"),
+        (pnt.amarelo("HP")  + "["+ pnt.verde("#"*count_play2)+"-"*not_count2+"]"),
+        (f"     {total_life[yourpk]}"+"/"+f"{pk.pokemons[yourpk].max_hp}")
+    ]
+    sw.draw_poke_you(pk.pokemons[yourpk].race._race,draw_you_text)
 
 
 

@@ -1,7 +1,9 @@
 import element as el
 
 races={}
+races_id={}
 races_learn={}
+id =1
 
 class race:
     def __init__(self,race,types:list,base_stats:list):
@@ -28,6 +30,8 @@ with open("Races.txt") as info:
         linhas[2] = list(linhas[2])
         linhas[2] = [int(i) for i in linhas[2]]
         temp_race = race(linhas[0],temp_ele,linhas[2])
+        races_id[linhas[0]] = id
+        id += 1
 
 with open("Poke_Learn.txt") as info:
     for linhas in info:
@@ -35,4 +39,3 @@ with open("Poke_Learn.txt") as info:
         temp_list = linhas[0].split(",")
         temp_list[1] = temp_list[1].split(" ")
         races_learn[temp_list[0]] = temp_list[1]
-
