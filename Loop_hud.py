@@ -15,6 +15,7 @@ def inicio():
     match a:
         case "criar um treinador" | "1":
         ##Criar treinador
+            print (f"Treinadores indisponiveis: {[i for i in tr.trainers.keys()]}\n")
             answer = form.format_names(input("\nNome do treinador: "))
             tr.Trainer.add_trainer(answer)
             continuar = input("continue")
@@ -62,7 +63,7 @@ def inicio():
                     print (f"Pokemons disponiveis: {[i for i in pk.pokemons.keys()]}")
 
                     Nome_pk = form.format_names(input("Digite o nome do pokemon: "))
-
+                    clean()
                     tr.Trainer.add_party(Nome_treinador,Nome_pk)
                     continuar = input("continue")
                 except:
@@ -112,7 +113,7 @@ def inicio():
             continuar = input("continue")
 ## BATALHAR
         case "batalha" |"6":
-                
+            try:    
                 treinadore_temp = [i for i in tr.trainers.keys()]
                 print (f"\nTreinadores disponiveis: {treinadore_temp}\n")
                 player1 = form.format_names(input("Nome do Player 1 (you): "))
@@ -120,7 +121,8 @@ def inicio():
                 print (f"\nTreinadores disponiveis: {treinadore_temp}\n")
                 player2 = form.format_names(input("Nome do Player 2: "))
                 fg.battle(player1,player2)
-
+            except:
+                print ("Input Invalido!")
         case _ :
             print ("Resposta Invalida")
             clean()

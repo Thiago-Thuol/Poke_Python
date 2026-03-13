@@ -10,13 +10,12 @@ import show_poke as sw
 def clean():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-
 ### draw battle 
 
 def draw_top_part(enemy,you,Round):
     ##display hud batalha
 
-    print (f"{"="*100}\n{' '*35}MODO DE BATALHA !!!!!\n{' '*40}{you} vs {enemy}\n{' '*40}Round :{Round}\n{"="*100}\n")
+    print (f"{"="*100}\n{' '*35}MODO DE BATALHA !!!!!\n{' '*40}{you} vs {enemy}\n{' '*40}Round :{Round}\n{"="*100}")
 
 def draw_enemy(enemy,total_life,enemypk,enemy_pk_lv):
 ##     player enemy
@@ -29,7 +28,7 @@ def draw_enemy(enemy,total_life,enemypk,enemy_pk_lv):
         (  pnt.amarelo("HP")  + "["+ pnt.verde("#"*count_play1) + "-"*not_count1+"]"),
         (f"     {total_life[enemypk]}"+"/"+f"{pk.pokemons[enemypk].max_hp}")
     ]
-    sw.draw_poke_enemy(pk.pokemons[enemypk].race._race,draw_enem_text,(f"{enemy_pk_lv}"))
+    sw.draw_poke_enemy(pk.pokemons[enemypk].race._race,draw_enem_text,(f"{enemy_pk_lv}"),len(pk.pokemons[enemypk].race._race))
 
 def draw_you(you,total_life,your_pk_lvl,yourpk):
 ## player you
@@ -51,14 +50,14 @@ def draw_you(you,total_life,your_pk_lvl,yourpk):
 
 ## draw lowe part none
 
-def draw_basic_lower(you):
-    print (f"{"="*100}\n{' '*35}Player: {you}\n\n1)Ataque{' '*20}2)Bag\n3)Pokemons{' '*18}4)fugir\n\n{"="*100}\n")
+def draw_basic_lower(yourpk):
+    print (f"{"="*100}\n{' '*35}\nWhat will {" "*15} 1)Ataque{' '*20}2)Bag\n{yourpk} do?{" "*(22-len(yourpk))}3)Pokemons{' '*18}4)fugir\n\n{"="*100}")
     action = input("ACTION: ")
 
     return action
 
 
-def draw_attack_lower(enemypk,yourpk,your_pk_lvl,enemy_pk_lv,total_life,enemy,you,Round,attacks_display,attacks_display_PP=0):
+def draw_attack_lower(enemypk,yourpk,your_pk_lvl,enemy_pk_lv,total_life,enemy,you,Round,attacks_display,attacks_display_PP=0,attacks_display_PP_max=0):
 
     clean()
    
@@ -71,7 +70,7 @@ def draw_attack_lower(enemypk,yourpk,your_pk_lvl,enemy_pk_lv,total_life,enemy,yo
     while len(attacks_display) < 4:
         attacks_display.append("Empty")
 
-    print (f"{"="*100}\n{' '*35}Player Attacks: {you}\n\n1){attacks_display[0]} PP: {attacks_display_PP[0]}{" "*20}2){attacks_display[1]} PP: {attacks_display_PP[1]}\n3){attacks_display[2]} PP: {attacks_display_PP[2]}{" "*20}4){attacks_display[3]} PP: {attacks_display_PP[3]}\n\n{"="*100}\n")
+    print (f"{"="*100}\n{' '*35}Player Attacks: {you}\n\n1){attacks_display[0]} PP: {attacks_display_PP[0]}/{attacks_display_PP_max[0]}{" "*20}2){attacks_display[1]} PP: {attacks_display_PP[1]}/{attacks_display_PP_max[1]}\n3){attacks_display[2]} PP: {attacks_display_PP[2]}/{attacks_display_PP_max[2]}{" "*20}4){attacks_display[3]} PP: {attacks_display_PP[3]}/{attacks_display_PP_max[3]}\n\n{"="*100}\n")
 
     attack_chosen = input("CHOSE: ")
 
@@ -124,9 +123,11 @@ def battle(you_inp,enemy_inp):
     total_life = {yourpk:pk.pokemons[yourpk].max_hp,
               enemypk:pk.pokemons[enemypk].max_hp}
 
-    Round = 1
+    Round = 1 ##RODADA
 
-    attacks_display = []
+    attacks_display = [] 
+
+     #####formatacao dos ataques#####
 
     for i in pk.pokemons[yourpk].attaks:
         name = ([j for j in i])
@@ -139,13 +140,16 @@ def battle(you_inp,enemy_inp):
             PP_id.append(index)
 
     attacks_display_PP = []
+    attacks_display_PP_max = []
 
     for i in attacks_display:
         attacks_display_PP.append(mv.moves[i].PP) 
+        attacks_display_PP_max.append(mv.moves[i].PP) 
     while len(attacks_display_PP) < 4 :
         attacks_display_PP.append(0)
+        attacks_display_PP_max.append(0)
 
-
+##### inicio do loop
 
     while True :
 
@@ -157,22 +161,33 @@ def battle(you_inp,enemy_inp):
 
 ##interative part
 
-        step_1 = draw_basic_lower(you)
+        step_1 = draw_basic_lower(yourpk)
 
         match step_1:
             case "1":
-                attack_chosen = draw_attack_lower(enemypk,yourpk,your_pk_lvl,enemy_pk_lv,total_life,enemy,you,Round, attacks_display,attacks_display_PP)
+                attack_chosen = draw_attack_lower(enemypk,yourpk,your_pk_lvl,enemy_pk_lv,total_life,enemy,you,Round, attacks_display,attacks_display_PP,attacks_display_PP_max)
                 match attack_chosen:
+
+                    #### escolheu um ataque ###
+
                     case "1" | "2" | "3" | "4":
                         attack_chosen = int(attack_chosen)-1
-                        if mv.moves[attacks_display[attack_chosen]].category == "Physical":
-                            damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[attack_chosen]].power*your_ATTK)//enemy_defense)//50+2)
-                        elif mv.moves[attacks_display[attack_chosen]].category == "Special":
-                            damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[attack_chosen]].power*yout_SPATTK)//enemy_SPdefense)/50+2)
+                        if attacks_display_PP[attack_chosen] > 0:
+                            attacks_display_PP[attack_chosen] -= 1
+                            if mv.moves[attacks_display[attack_chosen]].category == "Physical":
+                                damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[attack_chosen]].power*your_ATTK)//enemy_defense)//50+2)
+                            elif mv.moves[attacks_display[attack_chosen]].category == "Special":
+                                damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[attack_chosen]].power*yout_SPATTK)//enemy_SPdefense)/50+2)
+                            else:
+                                damage = 1
                         else:
-                            damage = 1
+                            print ("Sem PP")
+                            ok = input("ok")
+                            clean()
+                            continue
                     case _: 
-                        return 0
+                        clean()
+                        continue
  
             case "2":
                 draw_attack_lower
@@ -181,11 +196,12 @@ def battle(you_inp,enemy_inp):
             case "4":
                 draw_attack_lower
             case _:
-                return 0
+                clean()
+                continue
 
 
         total_life[enemypk] -= damage
         Round += 1
         clean()
         print (damage)
-##battle("Thuol","Alfaro")
+battle("Thuol","Alfaro")
