@@ -1,7 +1,7 @@
 from PIL import Image
 import race as rc
 
-def show_sprite_enemy(path, width=24,info:list=["oi","tchau"],xp:int=0,name_len:int=0):
+def show_sprite_enemy(path, width=35,info:list=["oi","tchau"],xp:int=0,name_len:int=0):
 
     img = Image.open(path).convert("RGBA")
 
@@ -31,15 +31,17 @@ def show_sprite_enemy(path, width=24,info:list=["oi","tchau"],xp:int=0,name_len:
         text = info[i] if i < len(info) else ""
         tamanho = len(text)
         if i == 1:
-            tamanho =   9+30 -tamanho
+            tamanho =   39 -tamanho
         elif i == 2:
-            tamanho = 8+10+30 - tamanho
+            tamanho = 48 - tamanho
+        elif i == 4:
+            tamanho = 39 -tamanho
         else:
             tamanho = 30 - tamanho
-        print(40*" "+text + tamanho*" "+line)
+        print(" "*40+text + tamanho*" "+line)
 
 
-def show_sprite_you(path, width=24,info:list=["oi","tchau"]):
+def show_sprite_you(path, width=35,info:list=["oi","tchau"]):
 
     img = Image.open(path).convert("RGBA")
 
@@ -74,4 +76,4 @@ def draw_poke_enemy(name,text,xp_np,name_len):
      show_sprite_enemy(path=f"newPoke/{rc.races_id[name]}.png",info=text,xp=len(xp_np),name_len=name_len)
 
 def draw_poke_you(name,text):
-     show_sprite_you(path=f"newPoke/{rc.races_id[name]}.png",info=text)
+     show_sprite_you(path=f"sprites_back_draw/{rc.races_id[name]}.png",info=text)
