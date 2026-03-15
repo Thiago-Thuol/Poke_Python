@@ -21,18 +21,16 @@ class move:
         return (f"{self.name}\n{self.element.element_name}\n{self.power}\n{self.category}\n{self.PP}\n{self.accuracy}\n{self.priority}\n{self.effect.nome}")
 
     
-with open("Moves.txt", "r") as info:
-    for linhas in info:
-        linhas = linhas.split(",")
-        linhas[2] = int(linhas[2])
+with open("setup/Moves.txt", "r") as info:
+    for linhas in info:                         # 0 = name , 1 = element ,2 = pw 
+        linhas = linhas.split(",")              #3 = accuracy, 4= category, 5 = PP
+        linhas[2] = int(linhas[2])              #6 = priority, 7 = effect , 8 = doublehit, 9 = recoil
         linhas[3] = int(linhas[3])
-        linhas[5] = int(linhas[5])
         linhas[5] = int(linhas[5])
         linhas[6] = int(linhas[6])
         linhas[8] = int(linhas[8])
         effect_temp = ef.effects[linhas[7]]
-        type_temp = ef.Effect(linhas[4])
         elemento_temp = el.elements[linhas[1]]
-        temp_race = move(linhas[0],type_temp,linhas[2],linhas[3],linhas[4],linhas[5],linhas[6],linhas[7],linhas[8],linhas[9])
+        temp_race = move(linhas[0],elemento_temp,linhas[2],linhas[3],linhas[4],linhas[5],linhas[6],effect_temp,linhas[8],linhas[9])
 
 teste = move(name="Teste",element=el.elements["Fire"],power=100,accuracy=100,category="status",PP=10,priority=1,effect=ef.Burn,multi_hit=2,recoil=0)

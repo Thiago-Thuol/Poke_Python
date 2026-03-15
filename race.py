@@ -18,7 +18,7 @@ class race:
 
 
 
-with open("Races.txt") as info:
+with open("setup/Races.txt") as info:
     for linhas in info:
         linhas = linhas.split(",")
         linhas[1] = linhas[1].split(" ")
@@ -33,7 +33,7 @@ with open("Races.txt") as info:
         races_id[linhas[0]] = id
         id += 1
 
-with open("Poke_Learn.txt") as info:
+with open("setup/Poke_Learn.txt") as info:
     for linhas in info:
         linhas = linhas.split("[")
         temp_list = linhas[0].split(",")

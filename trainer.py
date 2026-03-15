@@ -73,11 +73,16 @@ class Trainer:
 Trainer.add_trainer(nome = "Thuol")
 Trainer.add_trainer(nome = "Alfaro")
 
+Trainer.add_trainer(nome = "Teste1")
+Trainer.add_trainer(nome = "Teste2")
+
 Trainer.add_party("Alfaro","Trotsky")
-
 Trainer.add_party("Alfaro","Gui")
-
 Trainer.add_party("Thuol","Mendigo")
+
+Trainer.add_party("Teste1","Wagner")
+Trainer.add_party("Teste2","Rodrigo")
+Trainer.add_party("Teste2","Luccas")
 ##Thuol_trainer.add_party(pk.Trotsky)
 ##Thuol_trainer.add_party(pk.Mendigo)
 ##Thuol_trainer.add_party(pk.Lula)

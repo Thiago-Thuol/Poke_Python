@@ -174,3 +174,9 @@ pokemon.build_pk(nome='Lula',lvl=100,race="Tentacool")
 pokemon.build_pk(nome='Gui',lvl=100,race="Grimer")
 
 pokemon.build_pk(nome='Mendigo',lvl=50,race="Gengar")
+
+pokemon.build_pk(nome='Rodrigo',lvl=50,race="Blastoise")
+
+pokemon.build_pk(nome='Wagner',lvl=50,race="Charizard")
+
+pokemon.build_pk(nome='Luccas',lvl=50,race="Venusaur")

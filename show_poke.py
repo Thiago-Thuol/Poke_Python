@@ -31,13 +31,13 @@ def show_sprite_enemy(path, width=35,info:list=["oi","tchau"],xp:int=0,name_len:
         text = info[i] if i < len(info) else ""
         tamanho = len(text)
         if i == 1:
-            tamanho =   39 -tamanho
+            tamanho =   38 -tamanho
         elif i == 2:
-            tamanho = 48 - tamanho
+            tamanho = 47 - tamanho
         elif i == 4:
-            tamanho = 39 -tamanho
+            tamanho = 38 -tamanho
         else:
-            tamanho = 30 - tamanho
+            tamanho = 29 - tamanho
         print(" "*40+text + tamanho*" "+line)
 
 
@@ -69,7 +69,7 @@ def show_sprite_you(path, width=35,info:list=["oi","tchau"]):
         line += "\033[0m"
 
         text = info[i] if i < len(info) else ""
-        print(line + 10*" " + text)
+        print(line + 2*" " + text)
  
 
 def draw_poke_enemy(name,text,xp_np,name_len):
