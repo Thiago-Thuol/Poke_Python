@@ -6,6 +6,7 @@ import format_input as form
 import os
 import paint as pnt
 import show_poke as sw
+import random as rm
 
 def clean():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -24,12 +25,12 @@ def draw_enemy():
     pokebolas_enemy = len(pokemon_enemy)
     draw_enem_text =[
          (f"Player: {enemy}"),
-        (f"{enemypk_name}"+" ("+f"{pk.pokemons[enemypk_name].race._race}  {pnt.amarelo("Lv.")} {enemy_pk_lv}"")"),
+        (f"{enemypk_name}"+" ("+f"{pk.pokemons[enemypk_name].race._race}  {pnt.amarelo("Lv.")} {enemy_pk_lvl}"")"),
         (  pnt.amarelo("HP")  + "["+ pnt.verde("#"*count_play1) + "-"*not_count1+"]"),
         (f"     {total_life_enemy[enemypk_name]}"+"/"+f"{pk.pokemons[enemypk_name].max_hp}"),
         (f"{pnt.branco("▀ "*pokebolas_enemy)}{"- "*(6-pokebolas_enemy)}")
     ]
-    sw.draw_poke_enemy(pk.pokemons[enemypk_name].race._race,draw_enem_text,(f"{enemy_pk_lv}"),len(pk.pokemons[enemypk_name].race._race))
+    sw.draw_poke_enemy(pk.pokemons[enemypk_name].race._race,draw_enem_text,(f"{enemy_pk_lvl}"),len(pk.pokemons[enemypk_name].race._race))
 
 def draw_you():
 ## player you
@@ -58,11 +59,11 @@ def draw_attack_lower():
 
     clean()
    
-    draw_top_part(enemy,you,Round)
+    draw_top_part()
 
-    draw_enemy(enemy,enemypk_name,enemy_pk_lv,pokemon_enemy)
+    draw_enemy()
 
-    draw_you(you,your_pk_lvl,yourpk_name,pokemons_you)
+    draw_you()
 
     while len(attacks_display) < 4:
         attacks_display.append("Empty")
@@ -101,7 +102,7 @@ def battle(you_inp,enemy_inp):
     global Round
     global enemy
     global enemypk_name
-    global enemy_pk_lv
+    global enemy_pk_lvl
     global total_life_enemy
     global enemy_ATTK
     global enemy_DFS
@@ -121,6 +122,8 @@ def battle(you_inp,enemy_inp):
     global PP_id
     global attacks_display_PP
     global attacks_display_PP_max
+
+### your setup ####
 
     you = you_inp
 
@@ -160,12 +163,12 @@ def battle(you_inp,enemy_inp):
         attacks_display_PP.append(0)
         attacks_display_PP_max.append(0)
 
+#### enemy setup ###
     enemy = enemy_inp
 
     enemypk_name = tr.trainers[enemy].party[0].name
-    print (enemypk_name)
 
-    enemy_pk_lv = pk.pokemons[enemy].lvl ###ENEMY LEVEL
+    enemy_pk_lvl = pk.pokemons[enemypk_name].lvl ###ENEMY LEVEL
 
     enemy_DFS = pk.pokemons[enemypk_name].DFS
     enemy_DFS = pk.pokemons[enemypk_name].DFS
@@ -174,6 +177,30 @@ def battle(you_inp,enemy_inp):
     enemy_SP_ATTK = pk.pokemons[enemypk_name].SP_ATTK
     enemy_SP_DEF = pk.pokemons[enemypk_name].SP_DEF
 
+    attacks_display_enemy = [] 
+
+     #####formatacao dos ataques#####
+
+    for i in pk.pokemons[enemypk_name].attaks:
+        name = ([j for j in i])
+        for index in name:
+            attacks_display_enemy.append(index)
+    PP_id_enemy = []
+    for i in pk.pokemons[enemypk_name].attaks_pp:
+        PPSd_enemy = ([j for j in i.values()])
+        for index in PPSd_enemy:
+            PP_id_enemy.append(index)
+
+    attacks_display_enemy_PP = []
+    attacks_display_enemy_PP_max = []
+
+
+    for i in attacks_display_enemy:
+        attacks_display_enemy_PP.append(mv.moves[i].PP) 
+        attacks_display_enemy_PP_max.append(mv.moves[i].PP) 
+    while len(attacks_display_enemy_PP) < 4 :
+        attacks_display_enemy_PP.append(0)
+        attacks_display_enemy_PP_max.append(0)
 
     Round = 1 ##RODADA
 
@@ -191,7 +218,6 @@ def battle(you_inp,enemy_inp):
 
     for i in tr.trainers[enemy].party:
         pokemon_enemy.append(i.name)
-    print (pokemon_enemy)
 
     total_life_enemy = {}
 
@@ -207,8 +233,6 @@ def battle(you_inp,enemy_inp):
 
     for i in pokemons_you:
         total_life_you[i] = pk.pokemons[i].max_hp
-    print (total_life_enemy)
-    print (total_life_you)
     
 
 ##### inicio do loop
@@ -221,11 +245,41 @@ def battle(you_inp,enemy_inp):
             for i in pokemon_enemy:
                 all_dead_enemy = True
                 if total_life_enemy[i] >= 0:
-                    enemy_pk_lv = pk.pokemons[i].lvl ###ENEMY LEVEL
-                    enemy_defense = pk.pokemons[i].DFS  ## ENEMY DEFENSE
-                    enemy_SPdefense = pk.pokemons[i].SP_DEF  ## ENEMY SPDEFENS
                     enemypk_name = i
-                    
+
+                    enemy_pk_lvl = pk.pokemons[enemypk_name].lvl ###ENEMY LEVEL
+                    enemy_DFS = pk.pokemons[enemypk_name].DFS
+                    enemy_DFS = pk.pokemons[enemypk_name].DFS
+                    enemy_ATTK = pk.pokemons[enemypk_name].ATTK
+                    enemy_SPPD = pk.pokemons[enemypk_name].SPPD
+                    enemy_SP_ATTK = pk.pokemons[enemypk_name].SP_ATTK
+                    enemy_SP_DEF = pk.pokemons[enemypk_name].SP_DEF
+
+
+                    attacks_display_enemy = [] 
+
+                    #####formatacao dos ataques#####
+
+                    for i in pk.pokemons[enemypk_name].attaks:
+                        name = ([j for j in i])
+                        for index in name:
+                            attacks_display_enemy.append(index)
+                    PP_id_enemy = []
+                    for i in pk.pokemons[enemypk_name].attaks_pp:
+                        PPSd_enemy = ([j for j in i.values()])
+                        for index in PPSd_enemy:
+                            PP_id_enemy.append(index)
+
+                    attacks_display_enemy_PP = []
+                    attacks_display_enemy_PP_max = []
+
+
+                    for i in attacks_display_enemy:
+                        attacks_display_enemy_PP.append(mv.moves[i].PP) 
+                        attacks_display_enemy_PP_max.append(mv.moves[i].PP) 
+                    while len(attacks_display_enemy_PP) < 4 :
+                        attacks_display_enemy_PP.append(0)
+                        attacks_display_enemy_PP_max.append(0)
                     all_dead_enemy = False
             if all_dead_enemy == False:
                 continue
@@ -234,21 +288,30 @@ def battle(you_inp,enemy_inp):
             
 ## check if you are dead###
 
-        if total_life_enemy[enemypk_name] <= 0:
-            for i in pokemon_enemy:
+        if total_life_you[yourpk_name] <= 0:
+            for i in pokemons_you:
                 all_dead_enemy = True
-                if total_life_enemy[i] >= 0:
-                    enemy_pk_lv = pk.pokemons[i].lvl ###ENEMY LEVEL
-                    enemy_defense = pk.pokemons[i].DFS  ## ENEMY DEFENSE
-                    enemy_SPdefense = pk.pokemons[i].SP_DEF  ## ENEMY SPDEFENS
+                if total_life_you[i] > 0:
+
                     enemypk_name = i
-                    
+
+                    your_pk_lvl = pk.pokemons[yourpk_name].lvl ###ENEMY LEVEL
+
+                    your_DFS = pk.pokemons[yourpk_name].DFS
+                    your_DFS = pk.pokemons[yourpk_name].DFS
+                    your_ATTK = pk.pokemons[yourpk_name].ATTK
+                    your_SPPD = pk.pokemons[yourpk_name].SPPD
+                    your_SP_ATTK = pk.pokemons[yourpk_name].SP_ATTK
+                    your_SP_DEF = pk.pokemons[yourpk_name].SP_DEF
+
+
                     all_dead_enemy = False
             if all_dead_enemy == False:
                 continue
             else:
                 return 0
-    
+            
+    ## desenha na tela as info basicas ##
 
         draw_top_part()
         draw_enemy()
@@ -272,16 +335,104 @@ def battle(you_inp,enemy_inp):
                         if attacks_display_PP[attack_chosen] > 0:
                             attacks_display_PP[attack_chosen] -= 1
                             if mv.moves[attacks_display[attack_chosen]].category == "Physical":
-                                damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[attack_chosen]].power*your_ATTK)//enemy_defense)//50+2)
+                                damage_your = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[attack_chosen]].power*your_ATTK)//enemy_DFS)//50+2)
                             elif mv.moves[attacks_display[attack_chosen]].category == "Special":
-                                damage = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[attack_chosen]].power*your_SP_ATTK)//enemy_SP_DEF)//50+2)
+                                damage_your = (((((2*your_pk_lvl)//5+2)*mv.moves[attacks_display[attack_chosen]].power*your_SP_ATTK)//enemy_SP_DEF)//50+2)
                             else:
-                                damage = 1
+                                damage_your = 1
+                            ### enemy chose attack for now will be "random"
+                            enemy_attack_chosen = rm.randint(0,(len(attacks_display_enemy)-2))
+
+                            if attacks_display_enemy_PP[enemy_attack_chosen] > 0:
+                                attacks_display_enemy_PP[enemy_attack_chosen] -= 1
+                                if mv.moves[attacks_display_enemy[enemy_attack_chosen]].category == "Physical":
+                                    damage_enemy = (((((2*enemy_pk_lvl)//5+2)*mv.moves[attacks_display_enemy[enemy_attack_chosen]].power*enemy_ATTK)//your_DFS)//50+2)
+                                    print(enemy_pk_lvl)
+                                elif mv.moves[attacks_display_enemy[enemy_attack_chosen]].category == "Special":
+                                    damage_enemy = (((((2*enemy_pk_lvl)//5+2)*mv.moves[attacks_display_enemy[enemy_attack_chosen]].power*enemy_SP_ATTK)//your_SP_DEF)//50+2)
+                                else:
+                                    damage_enemy = 1
+                            else:
+                                damage_enemy = 1
                         else:
                             print ("Sem PP")
                             ok = input("ok")
                             clean()
                             continue
+                        if your_SPPD > enemy_SPPD:
+                            clean()
+                            total_life_enemy[enemypk_name] -= damage_your
+                            if total_life_enemy[enemypk_name] < 0:
+                                total_life_enemy[enemypk_name] = 0
+                                draw_top_part()
+                                draw_enemy()
+                                draw_you()
+                                print (f"{"="*100}\n\n{yourpk_name} used\n {attacks_display[attack_chosen]} {damage_your}!\n\n{"="*100}")
+                                ok = input("")
+                                clean()
+                                continue
+                            else :
+                                draw_top_part()
+                                draw_enemy()
+                                draw_you()
+                                print (f"{"="*100}\n\n{yourpk_name} used\n {attacks_display[attack_chosen]} {damage_your}!\n\n{"="*100}")
+                                ok = input("")
+                                clean()
+                                total_life_you[yourpk_name] -= damage_enemy
+                                if total_life_you[yourpk_name] < 0:
+                                    total_life_you[yourpk_name] = 0
+                                    draw_top_part()
+                                    draw_enemy()
+                                    draw_you()
+                                    print (f"{"="*100}\n\n{yourpk_name} used\n {attacks_display[attack_chosen]} {damage_your}!\n\n{"="*100}")
+                                    ok = input("")
+                                    clean()
+                                    continue
+                                else :
+                                    draw_top_part()
+                                    draw_enemy()
+                                    draw_you()
+                                    print (f"{"="*100}\n\n{enemypk_name} used\n {attacks_display_enemy[enemy_attack_chosen]} {damage_enemy}!\n\n{"="*100}")
+                                    ok = input("")
+                                    clean()
+                        else:
+                            clean()
+                            total_life_you[yourpk_name] -= damage_enemy
+                            if total_life_you[yourpk_name] < 0:
+                                total_life_you[yourpk_name] = 0
+                                draw_top_part()
+                                draw_enemy()
+                                draw_you()
+                                print (f"{"="*100}\n\n{enemypk_name} used\n {attacks_display_enemy[enemy_attack_chosen]} {damage_enemy}!\n\n{"="*100}")
+                                ok = input("")
+                                clean()
+                                continue
+                            else :
+                                draw_top_part()
+                                draw_enemy()
+                                draw_you()
+                                print (f"{"="*100}\n\n{enemypk_name} used\n {attacks_display_enemy[enemy_attack_chosen]} {damage_enemy}!\n\n{"="*100}")
+                                ok = input("")
+                                clean()
+                                total_life_enemy[enemypk_name] -= damage_your
+                                if total_life_enemy[enemypk_name] < 0:
+                                    total_life_enemy[enemypk_name] = 0
+                                    draw_top_part()
+                                    draw_enemy()
+                                    draw_you()
+                                    print (f"{"="*100}\n\n{enemypk_name} used\n {attacks_display_enemy[enemy_attack_chosen]} {damage_enemy}!\n\n{"="*100}")
+                                    ok = input("")
+                                    clean()
+                                    continue
+                                else :
+                                    draw_top_part()
+                                    draw_enemy()
+                                    draw_you()
+                                    print (f"{"="*100}\n\n{yourpk_name} used\n {attacks_display[attack_chosen]} {damage_your}!\n\n{"="*100}")
+                                    ok = input("")
+                                    clean()
+
+
                     case _: 
                         clean()
                         continue
@@ -299,8 +450,5 @@ def battle(you_inp,enemy_inp):
                 continue
 
 
-        total_life_enemy[enemypk_name] -= damage
-        Round += 1
-        clean()
-        print (damage)
+
 battle("Thuol","Alfaro")
