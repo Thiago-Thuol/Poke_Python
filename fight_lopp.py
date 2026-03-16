@@ -9,6 +9,8 @@ import show_poke as sw
 import random as rm
 import element as el
 
+## checj if the player or enemy is dead ###
+
 def check_death(player):
     if player.total_life[player.pk_on] == 0:
         all_dead_enemy = True
@@ -23,22 +25,28 @@ def check_death(player):
     else:
         return False
 
+### func mensage down (it doesnt include draw) ###
+
 def mensage(mensage):
     print (f"{'='*100}\n\n{mensage}\n\n\n{'='*100}")
     ok = input("")
     clean()
 
+## clean screen func ##
+
 def clean():
     os.system('cls' if os.name == 'nt' else 'clear')
     ##print("\033[H\033[J", end="")
 
-### draw battle 
+### draw the 3 functions of battle (faster to write)##
 
 def draw_basic(you,enemy):
     clean()
     draw_top_part(you,enemy)
     draw_enemy(enemy)
     draw_you(you)
+
+### draw battle 
 
 def draw_top_part(you,enemy):
     ##display hud batalha
@@ -73,13 +81,15 @@ def draw_you(you):
     ]
     sw.draw_poke_you(pk.pokemons[you.pk_on].race._race,draw_you_text)
 
-## draw lowe part none
+## draw lower part (options)
 
 def draw_basic_lower(you):
     print (f"{"="*100}\n{' '*35}\nWhat will {" "*15} 1)Ataque{' '*20}2)Bag\n{you.pk_on} do?{" "*(22-len(you.pk_on))}3)Pokemons{' '*18}4)fugir\n\n{"="*100}")
     action = input("ACTION: ")
 
     return action
+
+## draw lower part (moves)
 
 def draw_attack_lower(you,enemy):
     draw_basic(you,enemy)
@@ -92,13 +102,14 @@ def draw_attack_lower(you,enemy):
 
     return attack_chosen
 
-def draw_pokemons_lower():
-    return 0
+
 def draw_bag_lower():
     return 0
 def fugir():
     return 0
+
 ## pre attack variables ###
+
 def pre_attack(pk,attack_chosen):
     accuracy = mv.moves[pk.attacks_display[attack_chosen]].accuracy
     priority = mv.moves[pk.attacks_display[attack_chosen]].priority
@@ -108,7 +119,9 @@ def pre_attack(pk,attack_chosen):
         acertou = True
     
     return acertou,priority
+
 ## calc the attack of the attack
+
 def calc_attack(pk,attack_chosen,enemy):
     multi_hit = mv.moves[pk.attacks_display[attack_chosen]].multi_hit
     recoil = mv.moves[pk.attacks_display[attack_chosen]].recoil
@@ -134,7 +147,10 @@ def calc_attack(pk,attack_chosen,enemy):
     else:
         damage_recoil = 0
     return damage,super_effect_you,multi_hit,damage_recoil
-## verify some paramether such as super effective moves
+
+## verify some paramether such as super effective moves##
+## draw basic stuff##
+
 def aplication(pk,you,enemy,attack_chosen,damage,super_ef):
     draw_basic(you,enemy)
     mensage (f"{pk.pk_on} used\n {pk.attacks_display[attack_chosen]} {damage}!")
@@ -144,10 +160,15 @@ def aplication(pk,you,enemy,attack_chosen,damage,super_ef):
     elif super_ef <1:
         mensage("Its not very effective...")
     clean()
+
+## print a lower mensage in the screen (it draw itself)
+
 def default_mensage(you,enemy,text):
     draw_basic(you,enemy)
     mensage(text)
+
 ##calc life bar 
+
 def life_bar(trainer):
 
     count = 10
@@ -156,7 +177,9 @@ def life_bar(trainer):
     count = count - not_count
 
     return int (count)
+
 ##obj of the player --- it has all the variables needed for the player
+
 class Battler:
     def __init__(self,name):
         ### your setup ####
@@ -214,7 +237,9 @@ class Battler:
         
         for i in self.pokemons:
             self.total_life[i] = pk.pokemons[i].max_hp
-##start######
+
+####start######
+
 def battle(you_inp,enemy_inp):
     clean()
 
@@ -310,11 +335,6 @@ def battle(you_inp,enemy_inp):
                                         default_mensage(you,enemy,"You missed")
                             else:
                                 default_mensage(you,enemy,"Enemy missed")
-
-                        
-                            
-
-
                     case _: 
                         clean()
                         continue
@@ -332,3 +352,4 @@ def battle(you_inp,enemy_inp):
                 continue
     return 0
 battle("Teste1","Teste2")
+## debug for tests ##
