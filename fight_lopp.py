@@ -11,13 +11,12 @@ import element as el
 
 def check_death(player):
     if player.total_life[player.pk_on] == 0:
+        all_dead_enemy = True
         for i in player.pokemons:
-            all_dead_enemy = True
             if player.total_life[i] > 0:
                 player.pk_on = i
                 player.setup()
                 player.format_attacks()
-                player.format_pokemons()
                 all_dead_enemy = False
         if all_dead_enemy == True:
             return True
@@ -99,16 +98,27 @@ def draw_bag_lower():
     return 0
 def fugir():
     return 0
-
-
+## pre attack variables ###
+def pre_attack(pk,attack_chosen):
+    accuracy = mv.moves[pk.attacks_display[attack_chosen]].accuracy
+    priority = mv.moves[pk.attacks_display[attack_chosen]].priority
+    if rm.randint(1,100) > accuracy:
+        acertou = False
+    else:
+        acertou = True
+    
+    return acertou,priority
+## calc the attack of the attack
 def calc_attack(pk,attack_chosen,enemy):
+    multi_hit = mv.moves[pk.attacks_display[attack_chosen]].multi_hit
+    recoil = mv.moves[pk.attacks_display[attack_chosen]].recoil
     if pk.attacks_display_PP[attack_chosen] > 0:
         pk.attacks_display_PP[attack_chosen] -= 1
         attack_you_type = mv.moves[pk.attacks_display[attack_chosen]].element.element_name
         super_effect_you = 1
         for i in enemy.pk_weakness:
             if attack_you_type in i:
-                super_effect_you += 1
+                super_effect_you = super_effect_you*2
             else:
                 for i in enemy.pk_super_effective:
                     if attack_you_type in i:
@@ -119,8 +129,12 @@ def calc_attack(pk,attack_chosen,enemy):
             damage = (((((2*pk.pk_lvl)//5+2)*mv.moves[pk.attacks_display[attack_chosen]].power*pk.SP_ATTK)//pk.SP_DEF)//50+2)*super_effect_you
         else:
             damage = 1
-    return damage,super_effect_you
-
+    if recoil == 1:
+        damage_recoil = damage//4
+    else:
+        damage_recoil = 0
+    return damage,super_effect_you,multi_hit,damage_recoil
+## verify some paramether such as super effective moves
 def aplication(pk,you,enemy,attack_chosen,damage,super_ef):
     draw_basic(you,enemy)
     mensage (f"{pk.pk_on} used\n {pk.attacks_display[attack_chosen]} {damage}!")
@@ -130,8 +144,10 @@ def aplication(pk,you,enemy,attack_chosen,damage,super_ef):
     elif super_ef <1:
         mensage("Its not very effective...")
     clean()
+def default_mensage(you,enemy,text):
+    draw_basic(you,enemy)
+    mensage(text)
 ##calc life bar 
-
 def life_bar(trainer):
 
     count = 10
@@ -140,7 +156,7 @@ def life_bar(trainer):
     count = count - not_count
 
     return int (count)
-
+##obj of the player --- it has all the variables needed for the player
 class Battler:
     def __init__(self,name):
         ### your setup ####
@@ -148,7 +164,7 @@ class Battler:
         self.trainer = name
 
         self.pk_on = tr.trainers[self.trainer].party[0].name
-
+        self.total_life = {}
         self.setup()
         self.format_attacks()
         self.format_pokemons()
@@ -170,7 +186,6 @@ class Battler:
         self.attacks_display_PP = []
         self.attacks_display_PP_max = []
         self.pokemons = []
-        self.total_life = {}
 
 
     def format_attacks(self):
@@ -199,10 +214,7 @@ class Battler:
         
         for i in self.pokemons:
             self.total_life[i] = pk.pokemons[i].max_hp
-    
-
 ##start######
-
 def battle(you_inp,enemy_inp):
     clean()
 
@@ -220,7 +232,7 @@ def battle(you_inp,enemy_inp):
         if you_lose == True:
             mensage("You lost")
             break
-        elif enemy_lose == True:
+        if enemy_lose == True:
             mensage("You won")
             break
             
@@ -247,40 +259,59 @@ def battle(you_inp,enemy_inp):
 
                     case "1" | "2" | "3" | "4":
                         attack_chosen = int(attack_chosen)-1
-                        damage_your,super_effect_you = calc_attack(you,attack_chosen,enemy)
                             ### enemy chose attack for now will be "random"
                         enemy_attack_chosen = rm.randint(0,(len(enemy.attacks_display)-1))
-                        damage_enemy,super_effect_enemy = calc_attack(enemy,enemy_attack_chosen,you)
-                        
-                        if you.SPPD > enemy.SPPD:
-                            enemy.total_life[enemy.pk_on] -= damage_your
-                            if enemy.total_life[enemy.pk_on] < 0:
-                                enemy.total_life[enemy.pk_on] = 0
-                                aplication(you,you,enemy,attack_chosen,damage_your,super_effect_you)
-                                continue
-                            else :
-                                aplication(you,you,enemy,attack_chosen,damage_your,super_effect_you)
+                        you_acertou,you_priority = pre_attack(you,attack_chosen)
+                        enemy_acertou,enemy_priority = pre_attack(enemy,attack_chosen)
+
+
+                        if you.SPPD > enemy.SPPD and you_priority > enemy_priority:
+                            if you_acertou:
+                                damage_your,super_effect_you,multi_hit_you,recoil_you = calc_attack(you,attack_chosen,enemy)
+                                enemy.total_life[enemy.pk_on] -= damage_your
+                                you.total_life[you.pk_on] -= recoil_you
+                                if enemy.total_life[enemy.pk_on] < 0:
+                                    enemy.total_life[enemy.pk_on] = 0
+                                    aplication(you,you,enemy,attack_chosen,damage_your,super_effect_you)
+                                else:
+                                    aplication(you,you,enemy,attack_chosen,damage_your,super_effect_you)
+                                    if enemy_acertou:
+                                        damage_enemy,super_effect_enemy,multi_hit_enemy,recoil_enemy = calc_attack(enemy,enemy_attack_chosen,you)
+                                        you.total_life[you.pk_on] -= damage_enemy
+                                        enemy.total_life[enemy.pk_on] -= recoil_enemy
+                                        if you.total_life[you.pk_on] < 0:
+                                            you.total_life[you.pk_on] = 0
+                                            aplication(enemy,you,enemy,enemy_attack_chosen,damage_enemy,super_effect_enemy)
+                                        else:
+                                            aplication(enemy,you,enemy,enemy_attack_chosen,damage_enemy,super_effect_enemy)
+                                    else:
+                                        default_mensage(you,enemy,"Enemy missed")
+                            else:
+                                default_mensage(you,enemy,"You missed")
+                            
+                        else:
+                            if enemy_acertou:
+                                damage_enemy,super_effect_enemy,multi_hit_enemy,recoil_enemy = calc_attack(enemy,enemy_attack_chosen,you)
                                 you.total_life[you.pk_on] -= damage_enemy
+                                enemy.total_life[enemy.pk_on] -= recoil_enemy
                                 if you.total_life[you.pk_on] < 0:
                                     you.total_life[you.pk_on] = 0
                                     aplication(enemy,you,enemy,enemy_attack_chosen,damage_enemy,super_effect_enemy)
-                                else :
+                                else:
                                     aplication(enemy,you,enemy,enemy_attack_chosen,damage_enemy,super_effect_enemy)
-                        else:
-                            you.total_life[you.pk_on] -= damage_enemy
-                            if you.total_life[you.pk_on] < 0:
-                                you.total_life[you.pk_on] = 0
-                                aplication(enemy,you,enemy,enemy_attack_chosen,damage_enemy,super_effect_enemy)
-                            else :
-                                aplication(enemy,you,enemy,enemy_attack_chosen,damage_enemy,super_effect_enemy)
-                                enemy.total_life[enemy.pk_on] -= damage_your
-                                if enemy.total_life[enemy.pk_on] < 0:
-                                    enemy.total_life[enemy.pk_on] = 0
-                                    aplication(you,enemy,you,enemy,attack_chosen,damage_your,super_effect_you)
-                                    continue
-                                else :
-                                    aplication(you,enemy,you,enemy,attack_chosen,damage_your,super_effect_you)
+                                    if you_acertou:
+                                        damage_your,super_effect_you,multi_hit_you,recoil_you = calc_attack(you,attack_chosen,enemy)
+                                        enemy.total_life[enemy.pk_on] -= damage_your
+                                        you.total_life[you.pk_on] -= recoil_you
+                                    if enemy.total_life[enemy.pk_on] < 0:
+                                        enemy.total_life[enemy.pk_on] = 0
+                                        aplication(you,you,enemy,attack_chosen,damage_your,super_effect_you)
+                                    else:
+                                        default_mensage(you,enemy,"You missed")
+                            else:
+                                default_mensage(you,enemy,"Enemy missed")
 
+                        
                             
 
 
@@ -300,6 +331,4 @@ def battle(you_inp,enemy_inp):
                 clean()
                 continue
     return 0
-
-
 battle("Teste1","Teste2")
