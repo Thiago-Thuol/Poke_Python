@@ -117,7 +117,6 @@ def pre_attack(pk,attack_chosen):
         acertou = False
     else:
         acertou = True
-    
     return acertou,priority
 
 ## calc the attack of the attack
@@ -287,7 +286,7 @@ def battle(you_inp,enemy_inp):
                             ### enemy chose attack for now will be "random"
                         enemy_attack_chosen = rm.randint(0,(len(enemy.attacks_display)-1))
                         you_acertou,you_priority = pre_attack(you,attack_chosen)
-                        enemy_acertou,enemy_priority = pre_attack(enemy,attack_chosen)
+                        enemy_acertou,enemy_priority = pre_attack(enemy,enemy_attack_chosen)
 
 
                         if you.SPPD > enemy.SPPD and you_priority > enemy_priority:
@@ -313,6 +312,18 @@ def battle(you_inp,enemy_inp):
                                         default_mensage(you,enemy,"Enemy missed")
                             else:
                                 default_mensage(you,enemy,"You missed")
+                                aplication(you,you,enemy,attack_chosen,damage_your,super_effect_you)
+                                if enemy_acertou:
+                                    damage_enemy,super_effect_enemy,multi_hit_enemy,recoil_enemy = calc_attack(enemy,enemy_attack_chosen,you)
+                                    you.total_life[you.pk_on] -= damage_enemy
+                                    enemy.total_life[enemy.pk_on] -= recoil_enemy
+                                    if you.total_life[you.pk_on] < 0:
+                                        you.total_life[you.pk_on] = 0
+                                        aplication(enemy,you,enemy,enemy_attack_chosen,damage_enemy,super_effect_enemy)
+                                    else:
+                                        aplication(enemy,you,enemy,enemy_attack_chosen,damage_enemy,super_effect_enemy)
+                                else:
+                                    default_mensage(you,enemy,"Enemy missed")
                             
                         else:
                             if enemy_acertou:
@@ -327,14 +338,26 @@ def battle(you_inp,enemy_inp):
                                     if you_acertou:
                                         damage_your,super_effect_you,multi_hit_you,recoil_you = calc_attack(you,attack_chosen,enemy)
                                         enemy.total_life[enemy.pk_on] -= damage_your
-                                        you.total_life[you.pk_on] -= recoil_you
-                                    if enemy.total_life[enemy.pk_on] < 0:
-                                        enemy.total_life[enemy.pk_on] = 0
                                         aplication(you,you,enemy,attack_chosen,damage_your,super_effect_you)
+                                        you.total_life[you.pk_on] -= recoil_you
+                                        if enemy.total_life[enemy.pk_on] < 0:
+                                            enemy.total_life[enemy.pk_on] = 0
+                                            aplication(you,you,enemy,attack_chosen,damage_your,super_effect_you)
                                     else:
                                         default_mensage(you,enemy,"You missed")
                             else:
                                 default_mensage(you,enemy,"Enemy missed")
+                                aplication(you,you,enemy,attack_chosen,damage_your,super_effect_you)
+                                if you_acertou:
+                                    damage_your,super_effect_you,multi_hit_you,recoil_you = calc_attack(you,attack_chosen,enemy)
+                                    enemy.total_life[enemy.pk_on] -= damage_your
+                                    you.total_life[you.pk_on] -= recoil_you
+                                    if enemy.total_life[enemy.pk_on] < 0:
+                                        enemy.total_life[enemy.pk_on] = 0
+                                        aplication(you,you,enemy,attack_chosen,damage_your,super_effect_you)
+                                else:
+                                    default_mensage(you,enemy,"You missed")
+                                
                     case _: 
                         clean()
                         continue
